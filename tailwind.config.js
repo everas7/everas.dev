@@ -28,7 +28,19 @@ module.exports = {
         sans: ['var(--font-montserrat)', ...fontFamily.sans],
       },
       colors: {
-        primary: colors.pink,
+        primary:  {
+          '50': '#f2fbfa',
+          '100': '#d4f3f0',
+          '200': '#a8e7e2',
+          '300': '#75d3ce',
+          '400': '#5bc0be',
+          '500': '#2f9d9d',
+          '600': '#237c7e',
+          '700': '#206365',
+          '800': '#1e4f51',
+          '900': '#1d4244',
+          '950': '#0b2628',
+      },
         gray: colors.gray,
       },
       typography: ({ theme }) => ({
