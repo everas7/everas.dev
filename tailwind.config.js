@@ -15,6 +15,9 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      fontWeight: {
+        'extrabold': '700',
+      },
       lineHeight: {
         11: '2.75rem',
         12: '3rem',
@@ -22,10 +25,22 @@ module.exports = {
         14: '3.5rem',
       },
       fontFamily: {
-        sans: ['var(--font-space-grotesk)', ...fontFamily.sans],
+        sans: ['var(--font-montserrat)', ...fontFamily.sans],
       },
       colors: {
-        primary: colors.pink,
+        primary: {
+          '50': '#f0faff',
+          '100': '#e0f4fe',
+          '200': '#bae9fd',
+          '300': '#7cdafd',
+          '400': '#37c7f9',
+          '500': '#0db1ea',
+          '600': '#018ec8',
+          '700': '#0270a0',
+          '800': '#065f86',
+          '900': '#0b4f6f',
+          '950': '#083249',
+      },
         gray: colors.gray,
       },
       typography: ({ theme }) => ({
