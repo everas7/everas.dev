@@ -15,6 +15,9 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      fontWeight: {
+        'extrabold': '700',
+      },
       lineHeight: {
         11: '2.75rem',
         12: '3rem',

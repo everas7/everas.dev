@@ -3,7 +3,7 @@ const siteMetadata = {
   title: 'Enmanuel Veras Blog',
   author: 'Enmanuel Veras',
   headerTitle: 'everas.dev',
-  description: 'A blog created with Next.js and Tailwind.css',
+  description: `Welcome to my blog - I am a software engineer with a passion for building great things. I love to read books and write my ideas.`,
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
