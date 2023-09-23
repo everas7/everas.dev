@@ -6,10 +6,10 @@ const siteMetadata = {
   description: `Welcome to my blog - I am a software engineer with a passion for building great things. I love to read books and write my ideas.`,
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
-  siteRepo: 'https://github.com/timlrx/tailwind-nextjs-starter-blog',
+  siteUrl: 'https://everas.dev',
+  siteRepo: 'https://github.com/everas7/everas.dev',
   siteLogo: '/static/images/logo.png',
-  socialBanner: '/static/images/twitter-card.png',
+  socialBanner: '/static/images/logo.png',
   mastodon: 'https://mastodon.social/@mastodonuser',
   email: 'enmaveras07@gmail.com',
   github: 'https://github.com/everas7',
