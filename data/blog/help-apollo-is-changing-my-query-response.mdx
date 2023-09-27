@@ -1,0 +1,83 @@
+---
+title: 'Help! Apollo is changing my graphql query response'
+date: '2023-09-27'
+lastmod: '2023-09-27'
+tags: ['apollo', 'apollo-client', 'react', 'graphql', 'cache']
+draft: false
+summary: "Apollo uses a cache mechanism that will override an object inside the query response if there's another object of the same type with the same id"
+layout: PostSimple
+---
+I recently encountered a very tricky and frustrating issue that may arise while working with Apollo Client. Apollo uses a cache mechanism that will override an object inside the query response if there's another object of the same type with the same id, regardless of what the rest of the object looks like.
+
+Although this is far from the ideal example, imagine you have a query response like this:
+
+```jsx
+[
+	{
+		name: "Ryan",
+		lastName: "Atwood",
+		jobStatus: {
+			id: 2,
+			name: "Active"
+		}
+	},
+	{
+		name: "Seth",
+		lastName: "Cohen",
+		jobStatus: {
+			id: 2,
+			name: "Unsubscribed"
+		}
+	}
+]
+
+```
+
+For some reason, there are two objects inside your response with the same id but different field values. In our example; two JobStatus objects with the same id but different names.
+
+Apollo's cache mechanism will override the second object because it has the same id, and the response you'll get, even in the Network tab, is this:
+
+```jsx
+[
+	{
+		name: "Ryan",
+		lastName: "Atwood",
+		jobStatus: {
+			id: 2,
+			name: "Active"
+		}
+	},
+	{
+		name: "Seth",
+		lastName: "Cohen",
+		jobStatus: {
+			id: 2,
+			name: "Active"
+		}
+	}
+]
+
+```
+
+This is a mechanism that certainly has its benefits in many scenarios, but if you encounter something like this and ignore the underlying mechanism, you'll probably be wondering why the backend response differs from what you get on the Network tab.
+
+### Ok, what's the solution?
+
+Cache ids. Apollo lets you customize cache ids, which means you can create your own unique identifier for a specific GraphQL object.
+
+In our example, the uniqueness of our object does not depend solely on the id, but on both the id and name fields. Therefore, this is a good solution for the issue:
+
+```jsx
+const cache = new InMemoryCache({
+  typePolicies: {
+    JobStatus: {
+      keyFields: ["id", "name"],
+    },
+  },
+});
+
+```
+
+See more: https://www.apollographql.com/docs/react/caching/cache-configuration/#customizing-cache-ids
+
+Hope you enjoyed this article and found the explanation clear and helpful.
