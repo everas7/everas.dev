@@ -1,0 +1,69 @@
+/* Mockup styles for portfolio-home. Values are DESIGN.md tokens; see ../ux.md. */
+:root {
+  --surface: #ffffff; --on-surface: #000000; --heading: #111827; --muted: #6b7280;
+  --border: #e5e7eb; --primary: #0270a0; --primary-hover: #065f86; --prose: #374151;
+}
+html.dark {
+  --surface: #030712; --on-surface: #ffffff; --heading: #f3f4f6; --muted: #9ca3af;
+  --border: #374151; --primary: #0db1ea; --primary-hover: #37c7f9; --prose: #d1d5db;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Montserrat, ui-sans-serif, system-ui, sans-serif; background: var(--surface);
+  color: var(--on-surface); -webkit-font-smoothing: antialiased; }
+.container { max-width: 48rem; margin: 0 auto; padding: 0 1rem; min-height: 100vh;
+  display: flex; flex-direction: column; }
+@media (min-width: 640px) { .container { padding: 0 1.5rem; } }
+@media (min-width: 1280px) { .container { max-width: 64rem; padding: 0; } }
+a { color: inherit; text-decoration: none; }
+header { display: flex; align-items: center; justify-content: space-between; padding: 2.5rem 0; }
+.brand { display: flex; align-items: center; gap: .75rem; }
+.logo { width: 40px; height: 40px; border-radius: 9999px; background: #06b6d4; }
+.site-title { font-size: 1.5rem; font-weight: 600; display: none; }
+.nav { display: flex; align-items: center; gap: 1.5rem; }
+.nav a.nl { font-weight: 500; color: var(--heading); display: none; }
+.icon { width: 24px; height: 24px; border-radius: 4px; border: 2px solid var(--heading); }
+.menu { width: 32px; height: 32px; }
+@media (min-width: 640px) { .site-title, .nav a.nl { display: block; } .menu { display: none; } }
+main { flex: 1; }
+h1.display { font-size: 1.875rem; line-height: 2.25rem; font-weight: 700; letter-spacing: -.025em;
+  color: var(--heading); }
+@media (min-width: 640px) { h1.display { font-size: 2.25rem; line-height: 2.5rem; } }
+@media (min-width: 768px) { h1.display { font-size: 3.75rem; line-height: 3.5rem; } }
+.role { font-size: 1.5rem; line-height: 2rem; font-weight: 700; letter-spacing: -.025em;
+  color: var(--heading); }
+.lead { font-size: 1.125rem; line-height: 1.75rem; color: var(--muted); }
+.hero { padding: 1.5rem 0 2rem; display: flex; flex-direction: column; gap: .5rem; }
+@media (min-width: 768px) { .hero { gap: 1.25rem; } }
+.links { display: flex; flex-wrap: wrap; column-gap: 1.5rem; row-gap: .5rem; padding-top: .5rem; }
+.tl { color: var(--primary); font-weight: 500; line-height: 1.5rem; }
+.tl:hover { color: var(--primary-hover); }
+.divider { border-top: 1px solid var(--border); }
+section { padding: 2rem 0; }
+h2.section { font-size: 1.5rem; line-height: 2rem; font-weight: 700; letter-spacing: -.025em;
+  color: var(--heading); margin-bottom: 1.5rem; }
+.cards { display: flex; flex-direction: column; gap: 1.5rem; }
+.card { border: 2px solid var(--border); border-radius: .375rem; padding: 1.5rem; }
+.card h3 { font-size: 1.125rem; line-height: 1.75rem; font-weight: 600; color: var(--heading); }
+.card .meta { font-weight: 500; color: var(--muted); margin-bottom: .75rem; }
+.card p { color: var(--muted); line-height: 1.75; }
+.creds { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+.slot { display: flex; flex-direction: column; gap: .5rem; }
+.badge { border: 1px dashed var(--border); border-radius: .375rem; display: flex; align-items: center;
+  justify-content: center; text-align: center; padding: .75rem; font-size: .875rem; color: var(--muted);
+  background: #fff; }
+html.dark .badge { color: #6b7280; }
+.badge.credly { width: 150px; height: 270px; }
+.badge.toptal { width: 180px; height: 270px; }
+footer { margin-top: 4rem; display: flex; flex-direction: column; align-items: center; padding-bottom: 2rem; }
+.socials { display: flex; gap: 1rem; margin-bottom: .75rem; }
+.small { font-size: .875rem; color: var(--muted); }
+.note { font-size: .75rem; color: var(--muted); font-style: italic; }
+/* About */
+.about-grid { display: flex; flex-direction: column; gap: .5rem; }
+@media (min-width: 1280px) { .about-grid { display: grid; grid-template-columns: 1fr 2fr; column-gap: 2rem; } }
+.photo-col { display: flex; flex-direction: column; align-items: center; padding: 2rem 0; }
+.avatar { width: 12rem; height: 12rem; border-radius: 9999px; background: linear-gradient(135deg, #9ca3af, #4b5563); }
+.photo-col h2 { font-size: 1.5rem; line-height: 2rem; font-weight: 700; letter-spacing: -.025em;
+  padding: 1rem 0 .5rem; color: var(--heading); }
+.prose { color: var(--prose); line-height: 1.75; padding: 2rem 0; }
+.prose p + p { margin-top: 1.25em; }
