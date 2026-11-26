@@ -5,7 +5,6 @@ import Link from './Link'
 import NavItem from './NavItem'
 import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
-import SearchButton from './SearchButton'
 
 const Header = () => {
   return (
@@ -37,7 +36,6 @@ const Header = () => {
               className="hidden sm:block font-medium text-gray-900 dark:text-gray-100"
             />
           ))}
-        <SearchButton />
         <ThemeSwitch />
         <MobileNav />
       </div>
