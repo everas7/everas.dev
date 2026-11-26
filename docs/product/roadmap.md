@@ -70,7 +70,7 @@ Card variant: an `as` heading prop (default `h2`), an optional `meta` line and t
 - lane: site
 - size: S
 - verify: `yarn build && yarn test:e2e e2e/metadata.spec.ts`
-- status: todo
+- status: doing
 In `siteMetadata.js` and `app/layout.tsx`: home title "Enmanuel Veras – Senior Software Engineer", template "%s | Enmanuel Veras", description from the intro, logo text stays "everas.dev". `app/seo.tsx` follows the same template. Remove the RSS `alternate` links (`app/layout.tsx:35-38,74`); `feed.xml` generation stays.
 
 #### E1-S7 · Hide the blog from search and the sitemap
