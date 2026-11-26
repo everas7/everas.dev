@@ -55,7 +55,7 @@ export async function generateMetadata({
     openGraph: {
       title: post.title,
       description: post.summary,
-      siteName: siteMetadata.title,
+      siteName: siteMetadata.author,
       locale: 'en_US',
       type: 'article',
       publishedTime: publishedAt,
