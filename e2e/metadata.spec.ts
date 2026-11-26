@@ -67,3 +67,33 @@ test('FR-10 title follows in-app navigation', async ({ page }) => {
   await page.locator('header').getByRole('link', { name: 'everas.dev' }).click()
   await expect(page).toHaveTitle(HOME_TITLE)
 })
+
+for (const path of [
+  '/',
+  '/about',
+  '/blog',
+  '/blog/page/1',
+  POST,
+  '/blog/help-apollo-is-changing-my-query-response',
+  '/tags',
+  '/tags/react',
+]) {
+  test(`FR-12 ${path} advertises no RSS feed and keeps its canonical URL`, async ({ page }) => {
+    await page.goto(path)
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+      'href',
+      `https://everas.dev${path}`
+    )
+    await expect(page.locator('link[type="application/rss+xml"]')).toHaveCount(0)
+  })
+}
+
+for (const feed of ['/feed.xml', '/tags/react/feed.xml']) {
+  test(`${feed} is still served`, async ({ request }) => {
+    const response = await request.get(feed)
+    expect(response.status()).toBe(200)
+    const xml = await response.text()
+    expect(xml).toContain(`<title>${HOME_TITLE}</title>`)
+    expect(xml).toContain(`<description>${profile.intro}</description>`)
+  })
+}
