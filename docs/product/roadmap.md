@@ -43,7 +43,7 @@ New `components/Credentials.tsx` (ux "New, needs approval"), rendered on `/` and
 - lane: about
 - size: M
 - verify: `yarn build && yarn test:e2e e2e/about.spec.ts`
-- status: todo
+- status: doing
 Rewrite `data/authors/default.mdx` (name "Enmanuel Veras", approved bio from ux "Microcopy", no Twitter). In `AuthorLayout`: name as `h2`, role and employer, avatar alt text, and "Résumé (PDF) →" with `-where="about"`. Spec compares the text to `data/profile.ts`, checks there is one `h1` and no skipped heading levels, and checks the alt text.
 
 #### E1-S4 · Selected work cards on `/`
