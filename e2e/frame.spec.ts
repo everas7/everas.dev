@@ -121,6 +121,21 @@ test.describe('FR-17 mobile menu', () => {
     await expect(menuLink(page, 'Résumé')).toBeFocused()
   })
 
+  // Safari's default keyboard mode leaves links out of the Tab order. tabindex="-1" stands in
+  // for that here, so the menu has to move the focus itself.
+  test('Tab reaches every menu link in a browser that skips links', async ({ page }) => {
+    await openMenu(page)
+    await menu(page)
+      .locator('a')
+      .evaluateAll((links) => links.forEach((link) => link.setAttribute('tabindex', '-1')))
+    for (const name of ['Home', 'About', 'Résumé']) {
+      await page.keyboard.press('Tab')
+      await expect(menuLink(page, name)).toBeFocused()
+    }
+    await page.keyboard.press('Tab')
+    await expect(closer(page)).toBeFocused()
+  })
+
   test('Tab after tapping blank space returns to the menu', async ({ page }) => {
     await openMenu(page)
     await page.mouse.click(200, 750)

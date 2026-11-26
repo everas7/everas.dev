@@ -27,15 +27,16 @@ const MobileNav = () => {
       if (event.key === 'Escape') return close()
 
       const panel = panelRef.current
-      if (event.key !== 'Tab' || !panel) return
-      // Keep Tab inside the panel, and bring focus back if it has left.
-      const items = panel.querySelectorAll<HTMLElement>('a[href], button')
-      const edge = event.shiftKey ? items[0] : items[items.length - 1]
-      const wrapTo = event.shiftKey ? items[items.length - 1] : items[0]
-      if (document.activeElement === edge || !panel.contains(document.activeElement)) {
-        event.preventDefault()
-        wrapTo.focus()
-      }
+      if (event.key !== 'Tab' || event.ctrlKey || event.metaKey || !panel) return
+      // Move the focus here on every Tab: Safari's default skips links, which would take the
+      // focus out of the panel.
+      event.preventDefault()
+      const items = Array.from(panel.querySelectorAll<HTMLElement>('a[href], button'))
+      const current = items.indexOf(document.activeElement as HTMLElement)
+      const step = event.shiftKey ? -1 : 1
+      // From outside the panel, enter at the first item, or the last with Shift.
+      const next = current === -1 ? (event.shiftKey ? -1 : 0) : current + step
+      items[(next + items.length) % items.length].focus()
     }
     // The menu button is hidden from `sm` up, so close without moving focus to it.
     const desktop = window.matchMedia('(min-width: 640px)')
