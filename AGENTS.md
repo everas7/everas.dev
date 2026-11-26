@@ -47,5 +47,5 @@ Use Node 24 and Yarn 3.6.1 (bundled in `.yarn/releases`). Don't use npm.
 - Keep `engines.node` in `package.json` on a version Vercel supports. It overrides the Vercel
   project setting.
 - The Husky pre-commit hook is not installed by `yarn install`, so run lint yourself.
-- `data/projectsData.ts` and `data/authors/sparrowhawk.mdx` are still starter template content.
+- `data/authors/sparrowhawk.mdx` is still starter template content.
 - The repository is public. Never commit secrets. Environment variable names are in `.env.example`.

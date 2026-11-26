@@ -10,7 +10,6 @@ const siteMetadata = {
   siteRepo: 'https://github.com/everas7/everas.dev',
   siteLogo: '/static/images/logo.png',
   socialBanner: '/static/images/logo.png',
-  mastodon: 'https://mastodon.social/@mastodonuser',
   email: 'enmaveras07@gmail.com',
   github: 'https://github.com/everas7',
   linkedin: 'https://www.linkedin.com/in/everas7/',
@@ -33,11 +32,6 @@ const siteMetadata = {
     // googleAnalytics: {
     //   googleAnalyticsId: '', // e.g. G-XXXXXXX
     // },
-  },
-  newsletter: {
-    // supports mailchimp, buttondown, convertkit, klaviyo, revue, emailoctopus
-    // Please add your .env file and modify it according to your selection
-    provider: 'mailchimp',
   },
 }
 

@@ -97,7 +97,7 @@ Add `robots: { index: false }` to the metadata exports of the post, `/blog`, `/b
 - lane: site
 - size: S
 - verify: `yarn build && yarn test:e2e e2e/removals.spec.ts`
-- status: todo
+- status: doing
 Delete `app/api/newsletter`, `app/projects` and `data/projectsData.ts`. Remove `newsletter` and `mastodon` from `siteMetadata.js` and the Mailchimp variables from `.env.example`. Spec: `/api/newsletter` and `/projects` return 404, and no page has a form.
 
 #### E1-S10 · Accessible `primary` link colour
