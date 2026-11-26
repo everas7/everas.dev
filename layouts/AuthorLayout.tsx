@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 import type { Authors } from 'contentlayer/generated'
 import SocialIcon from '@/components/social-icons'
 import Image from '@/components/Image'
+import Credentials from '@/components/Credentials'
 
 interface Props {
   children: ReactNode
@@ -44,6 +45,12 @@ export default function AuthorLayout({ children, content }: Props) {
             {children}
           </div>
         </div>
+        <section className="space-y-6 pb-8 pt-8">
+          <h2 className="text-2xl font-bold leading-8 tracking-tight text-gray-900 dark:text-gray-100">
+            Credentials
+          </h2>
+          <Credentials where="about" />
+        </section>
       </div>
     </>
   )
