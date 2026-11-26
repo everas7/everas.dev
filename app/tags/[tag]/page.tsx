@@ -11,9 +11,8 @@ export async function generateMetadata({ params }: { params: { tag: string } }):
   const tag = decodeURI(params.tag)
   return genPageMetadata({
     title: tag,
-    description: `${siteMetadata.title} ${tag} tagged content`,
+    description: `${siteMetadata.headerTitle} ${tag} tagged content`,
     robots: { index: false },
-    alternates: { canonical: './' },
   })
 }
 

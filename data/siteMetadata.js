@@ -1,9 +1,10 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-  title: 'everas.dev',
+  title: 'Enmanuel Veras – Senior Software Engineer',
   author: 'Enmanuel Veras',
   headerTitle: 'everas.dev',
-  description: `Welcome to my blog - I am a software engineer with a passion for building great things. I love to read books and write my ideas.`,
+  description:
+    'I build full-stack products in TypeScript and LLM systems in Python. 8 years shipping React, Node.js and AWS; most recently, the RAG pipeline behind an AI sales assistant used by ~150 car dealerships.',
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://everas.dev',
