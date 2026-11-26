@@ -92,3 +92,9 @@ test('robots.txt lets crawlers read noindex', async ({ request }) => {
   expect(robots).toContain('Allow: /')
   expect(robots).not.toContain('Disallow')
 })
+
+test('FR-14 sitemap lists only / and /about', async ({ request }) => {
+  const xml = await (await request.get('/sitemap.xml')).text()
+  const urls = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1])
+  expect(urls).toEqual(['https://everas.dev/', 'https://everas.dev/about'])
+})
