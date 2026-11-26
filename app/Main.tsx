@@ -1,4 +1,5 @@
 import { profile, type ProfileLink } from '@/data/profile'
+import Card from '@/components/Card'
 import Credentials from '@/components/Credentials'
 
 // Plain <a>, not @/components/Link: that component opens mailto: in a new tab and
@@ -15,7 +16,7 @@ export default function Home() {
         {profile.title}
       </p>
       <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">{profile.intro}</p>
-      <div className="flex flex-wrap gap-x-6 gap-y-2">
+      <div className="flex flex-wrap gap-x-6 gap-y-2 pb-6 md:pb-3">
         {profile.links.map((link) => (
           <a
             key={link.event}
@@ -29,7 +30,27 @@ export default function Home() {
           </a>
         ))}
       </div>
-      <section className="space-y-6 border-t border-gray-200 pt-8 dark:border-gray-700">
+      <section
+        className="space-y-6 border-t border-gray-200 pt-8 dark:border-gray-700"
+        data-testid="selected-work"
+      >
+        <h2 className="text-2xl font-bold leading-8 tracking-tight text-gray-900 dark:text-gray-100">
+          Selected work
+        </h2>
+        <div className="space-y-6">
+          {profile.work.map((item) => (
+            <Card key={item.title} {...item} as="h3" variant="stacked" />
+          ))}
+        </div>
+      </section>
+      {/* Projects: restore when there are projects to link to.
+      <section className="space-y-6 pt-8">
+        <h2 className="text-2xl font-bold leading-8 tracking-tight text-gray-900 dark:text-gray-100">
+          Projects
+        </h2>
+      </section>
+      */}
+      <section className="space-y-6 pt-8">
         <h2 className="text-2xl font-bold leading-8 tracking-tight text-gray-900 dark:text-gray-100">
           Credentials
         </h2>

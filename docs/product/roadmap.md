@@ -52,7 +52,7 @@ Rewrite `data/authors/default.mdx` (name "Enmanuel Veras", approved bio from ux 
 - lane: home
 - size: S
 - verify: `yarn build && yarn test:e2e e2e/home-work.spec.ts`
-- status: todo
+- status: done
 Card variant: an `as` heading prop (default `h2`), an optional `meta` line and the `form-title` size, full width (ux "New, needs approval"). Three cards from `data/profile.ts`, no links or images, with the Projects section commented out in the source. Can run in parallel with E1-S3.
 
 #### E1-S5 · Professional header, mobile menu and footer
