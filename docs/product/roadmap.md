@@ -34,7 +34,7 @@ Add `@playwright/test` as a devDependency, `playwright.config.ts` (webServer `ya
 - lane: home
 - size: M
 - verify: `yarn build && yarn test:e2e e2e/credentials.spec.ts`
-- status: todo
+- status: doing
 New `components/Credentials.tsx` (ux "New, needs approval"), rendered on `/` and `/about`. Fixed-size slots with placeholder text, a text link always visible under each badge, and Toptal CSS scoped. Add the hosts to the CSP in `next.config.js`. Resolve OQ-6 in the browser console and write the exact hosts into the spec. Spec checks: blocking `cdn.credly.com` and the Toptal hosts leaves the links; no `securitypolicyviolation` events; `body` font and `:root` styles unchanged.
 
 #### E1-S3 · About page with the correct facts
