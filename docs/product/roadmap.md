@@ -25,7 +25,7 @@ lint and type check (AGENTS.md), before it is pushed. Specs live in `e2e/`.
 - lane: home
 - size: M
 - verify: `yarn build && yarn test:e2e e2e/home-hero.spec.ts`
-- status: todo
+- status: doing
 Add `@playwright/test` as a devDependency, `playwright.config.ts` (webServer `yarn serve`) and a `test:e2e` script. Create `data/profile.ts` holding all of spec "Content", the single source for later stories. Replace the greeting, post list and newsletter form on `/` with the hero (ux "Home" 1); the hero links carry `data-umami-event` + `-where="home"`. Spec checks FR-1 at 400×800 and 1280×800 in both themes, FR-2's PDF response, FR-3's hrefs, and that `/` has no form.
 
 #### E1-S2 · Credentials row with embeds, fallbacks and CSP
