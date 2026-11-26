@@ -52,6 +52,15 @@ test('FR-11 there is no search button or shortcut', async ({ page }) => {
   }
 })
 
+test('FR-10 footer shows the name and year without the theme credit', async ({ page }) => {
+  await page.goto('/')
+  const footer = page.locator('footer')
+  await expect(footer).toContainText(`Enmanuel Veras • © ${new Date().getFullYear()} • everas.dev`)
+  await expect(footer).not.toContainText('Tailwind Nextjs Theme')
+  await expect(footer.getByRole('link', { name: 'everas.dev' })).toHaveAttribute('href', '/')
+  await expect(footer.getByRole('link')).toHaveCount(4)
+})
+
 test.describe('FR-17 mobile menu', () => {
   test.use({ viewport: { width: 400, height: 800 } })
 
