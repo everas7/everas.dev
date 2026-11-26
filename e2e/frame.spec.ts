@@ -51,3 +51,137 @@ test('FR-11 there is no search button or shortcut', async ({ page }) => {
     await expect(page.locator('input')).toHaveCount(0)
   }
 })
+
+test.describe('FR-17 mobile menu', () => {
+  test.use({ viewport: { width: 400, height: 800 } })
+
+  const menu = (page: Page) => page.locator('#mobile-menu')
+  const menuLink = (page: Page, name: string) => menu(page).getByRole('link', { name, exact: true })
+  const opener = (page: Page) => page.getByRole('button', { name: 'Open menu' })
+  const closer = (page: Page) => page.getByRole('button', { name: 'Close menu' })
+  const overflow = (page: Page) =>
+    expect.poll(() => page.evaluate(() => document.body.style.overflow))
+  const focusInMenu = (page: Page) =>
+    page.evaluate(() => !!document.activeElement?.closest('#mobile-menu'))
+
+  const expectClosed = async (page: Page) => {
+    await expect(menu(page)).toHaveAttribute('aria-hidden', 'true')
+    await expect(menu(page)).toBeHidden()
+    await overflow(page).toBe('')
+  }
+  const openMenu = async (page: Page) => {
+    await opener(page).click()
+    await expect(closer(page)).toBeFocused()
+  }
+
+  test.beforeEach(async ({ page }) => {
+    // The menu doesn't need the badge frame, and page load shouldn't wait on a third party.
+    await page.route('**://www.credly.com/**', (route) => route.abort())
+    await page.goto('/')
+    await hydrated(page)
+  })
+
+  test('closed menu is out of reach', async ({ page }) => {
+    await expectClosed(page)
+    for (let i = 0; i < 20; i++) {
+      await page.keyboard.press('Tab')
+      expect(await focusInMenu(page)).toBe(false)
+    }
+  })
+
+  test('open menu takes the focus', async ({ page }) => {
+    await opener(page).click()
+    await expect(page.getByRole('dialog', { name: 'Menu' })).toBeVisible()
+    await expect(menu(page)).toHaveAttribute('aria-hidden', 'false')
+    await expect(closer(page)).toBeFocused()
+    await expect(page.locator('button[aria-label="Open menu"]')).toHaveAttribute(
+      'aria-expanded',
+      'true'
+    )
+    await overflow(page).toBe('hidden')
+  })
+
+  test('focus stays inside the open menu', async ({ page }) => {
+    await openMenu(page)
+    for (let i = 0; i < 4; i++) {
+      await page.keyboard.press('Tab')
+      expect(await focusInMenu(page)).toBe(true)
+    }
+    await expect(closer(page)).toBeFocused()
+    await page.keyboard.press('Shift+Tab')
+    await expect(menuLink(page, 'Résumé')).toBeFocused()
+  })
+
+  test('Tab after tapping blank space returns to the menu', async ({ page }) => {
+    await openMenu(page)
+    await page.mouse.click(200, 750)
+    await page.keyboard.press('Tab')
+    expect(await focusInMenu(page)).toBe(true)
+  })
+
+  test('Escape closes the menu', async ({ page }) => {
+    await openMenu(page)
+    await page.keyboard.press('Escape')
+    await expectClosed(page)
+    await expect(opener(page)).toBeFocused()
+  })
+
+  test('Escape does nothing when the menu is closed', async ({ page }) => {
+    const theme = page.getByRole('button', { name: 'Toggle Dark Mode' })
+    await theme.focus()
+    await page.keyboard.press('Escape')
+    await expect(theme).toBeFocused()
+  })
+
+  test('close button closes the menu', async ({ page }) => {
+    await openMenu(page)
+    await closer(page).click()
+    await expectClosed(page)
+    await expect(opener(page)).toBeFocused()
+  })
+
+  test('a link closes the menu', async ({ page }) => {
+    await openMenu(page)
+    await menuLink(page, 'About').click()
+    await expect(page).toHaveURL(/\/about$/)
+    await expectClosed(page)
+    await expect(opener(page)).toBeFocused()
+  })
+
+  test('the current page link closes the menu', async ({ page }) => {
+    await openMenu(page)
+    await menuLink(page, 'Home').click()
+    await expectClosed(page)
+  })
+
+  test('Résumé opens the PDF and closes the menu', async ({ page, context }) => {
+    await context.route('**/static/resume.pdf', (route) =>
+      route.fulfill({ contentType: 'text/html', body: 'pdf' })
+    )
+    await openMenu(page)
+    const popupPromise = page.waitForEvent('popup')
+    await menuLink(page, 'Résumé').click()
+    const popup = await popupPromise
+    await popup.waitForURL(/\/static\/resume\.pdf$/)
+    await page.bringToFront()
+    await expectClosed(page)
+    await expect(opener(page)).toBeFocused()
+  })
+
+  test('browser Back closes the menu', async ({ page }) => {
+    await openMenu(page)
+    await menuLink(page, 'About').click()
+    await expect(page).toHaveURL(/\/about$/)
+    await expectClosed(page)
+    await openMenu(page)
+    await page.goBack()
+    await expect(page).toHaveURL(/\/$/)
+    await expectClosed(page)
+  })
+
+  test('widening the window closes the menu', async ({ page }) => {
+    await openMenu(page)
+    await page.setViewportSize({ width: 800, height: 800 })
+    await expectClosed(page)
+  })
+})
