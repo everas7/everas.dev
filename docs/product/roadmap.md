@@ -34,8 +34,8 @@ Add `@playwright/test` as a devDependency, `playwright.config.ts` (webServer `ya
 - lane: home
 - size: M
 - verify: `yarn build && yarn test:e2e e2e/credentials.spec.ts`
-- status: doing
-New `components/Credentials.tsx` (ux "New, needs approval"), rendered on `/` and `/about`. Fixed-size slots with placeholder text, a text link always visible under each badge, and Toptal CSS scoped. Add the hosts to the CSP in `next.config.js`. Resolve OQ-6 in the browser console and write the exact hosts into the spec. Spec checks: blocking `cdn.credly.com` and the Toptal hosts leaves the links; no `securitypolicyviolation` events; `body` font and `:root` styles unchanged.
+- status: done
+New `components/Credentials.tsx` (ux "New, needs approval"), rendered on `/` and `/about`. The Credly badge as a direct `https://www.credly.com` iframe (no `embed.js`) in a fixed 150×270 slot with placeholder text, the Toptal snippet ported with a CSS Module and no Typekit, and a text link always visible under each badge. Add `https://www.credly.com` to `frame-src` in `next.config.js`. Resolve OQ-6 in the browser console and write the exact hosts into the spec. Spec checks: blocking `www.credly.com` leaves the links; no `securitypolicyviolation` events; `body` font and `:root` styles unchanged.
 
 #### E1-S3 · About page with the correct facts
 - covers: FR-9, FR-8
@@ -135,6 +135,7 @@ EXPERIENCE.md: new Home, About, frame and 404. Retire F-1–F-4 and F-6, and tur
 ## Decisions
 - 2026-11-26: Playwright e2e harness added in the tracer bullet. FR-1, FR-6 and FR-7 can only be checked in a browser (human chose it over a no-dependency script plus manual checks).
 - 2026-11-26: Each story ships straight to `main` (human; a feature branch with a single merge was recommended). As a result, the About facts (E1-S3) come right after the credentials row, and the Credentials row goes on both pages in E1-S2, so production never shows the new home next to the old Toptal claim for long.
+- 2026-11-26: E1-S2 renders the Credly badge as a direct iframe (no `embed.js`, which runs once per full page load) and ports the Toptal snippet to a CSS Module without Typekit (human chose this over loading the vendor script and fonts).
 - 2026-11-26: Story 2 is the Credentials row, the part the human is least sure of (OQ-6 hosts, scoped Toptal CSS).
 - 2026-11-26: Umami events (FR-8) are added in each story that builds a link, not as a separate pass.
 - 2026-11-26: The `primary` contrast change comes late (E1-S10) because it touches files in every lane. Running it last avoids merge conflicts.

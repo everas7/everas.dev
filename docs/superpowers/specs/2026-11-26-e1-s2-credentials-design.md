@@ -1,6 +1,6 @@
 # E1-S2 design: Credentials row with embeds, fallbacks and CSP
 
-Status: draft, awaiting the human's approval. Story: `docs/product/roadmap.md` E1-S2 (FR-5, FR-6,
+Approved by the human on 2026-11-26 ("implement"). Story: `docs/product/roadmap.md` E1-S2 (FR-5, FR-6,
 FR-7, FR-8).
 
 ## Intent
@@ -89,8 +89,8 @@ recommended this as part of "1 + A", and the human picked "1 + A". **Confirm whe
     - "Hire me" keeps the vendor href, including its `#NW8430` fragment (likely Toptal's
       attribution), and adds `rel="noopener noreferrer"`, `data-umami-event="badge-toptal"`,
       `-where={where}` and `data-umami-event-via="badge"`.
-  - The slot reserves the badge's size: about 212px wide, with the height measured on a build and
-    fixed in the CSS, so there is no layout shift. With no font loading, there is no fallback-to-font swap.
+  - Size: 212×232, measured on a build. It is first-party HTML that renders with the page and loads
+    no fonts, so it needs no reserved box (the builder's call).
   - Text link: "Toptal profile →" → `profile.credentials[1].url`, new tab, same `rel`,
     `data-umami-event="badge-toptal"`, `-where={where}`.
 - Dark theme: the badges keep their light vendor styling (OQ-2). The text links follow the site

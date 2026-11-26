@@ -3,7 +3,7 @@ stage: feature-spec
 feature: "portfolio-home"
 ui: "yes"
 status: final
-updated: "2026-11-26T17:33"
+updated: "2026-11-26T19:30"
 based_on: "ux@2026-11-26T16:33, redesign-audit@2026-11-26T17:21"
 ---
 
@@ -109,11 +109,11 @@ Realized by: FR-5, FR-6, FR-7, FR-9, FR-10
 - **FR-5** A visitor sees a credentials row on `/` and `/about` with the Credly embed for the
   Claude badge and the Toptal "Top 3% Talent" embed. Check: both render on a production build.
 - **FR-6** If a badge script fails or is blocked, the visitor still gets a plain text link to
-  that badge. Check: block `cdn.credly.com` and the Toptal hosts in devtools; the text links
-  stay visible.
+  that badge. Check: block `www.credly.com`; the text links stay visible and the Credly slot
+  keeps its size. The Toptal badge is first-party HTML with no external requests.
 - **FR-7** The embeds don't change the rest of the page or break the security policy. Check: no
-  CSP violations in the console on `/` and `/about`; the Credly script loads over `https://`;
-  the Toptal CSS is scoped, so `body` font, `:root` variables and other elements' computed
+  CSP violations in the console on `/` and `/about`; the Credly badge is an `https://` iframe
+  with no third-party script on the page; the Toptal CSS is scoped, so `body` font, `:root` variables and other elements' computed
   styles are the same with and without the badge.
 
 **Measurement**
@@ -161,9 +161,9 @@ Realized by: FR-5, FR-6, FR-7, FR-9, FR-10
 
 **Added**
 - Credentials row with the two embeds and text fallbacks; scoped Toptal styles (FR-5–FR-7).
-- CSP hosts in `next.config.js`: `cdn.credly.com` (script), `www.credly.com` (frame),
-  `use.typekit.net` (style, font). [ASSUMPTION: exact hosts confirmed in the console on a build;
-  Typekit may also call `p.typekit.net`. See OQ-6.]
+- CSP host in `next.config.js`: `https://www.credly.com` (`frame-src`) only. The Credly badge is
+  rendered as the iframe `embed.js` would write, and the Toptal badge drops Typekit (E1-S2
+  design, 2026-11-26).
 - `data-umami-event` attributes (FR-8).
 
 **Removed**
@@ -200,5 +200,7 @@ CSP errors on `/` and `/about`.
   (a shorter version of the résumé's wording).
 - ~~**OQ-5** Once Blog and Tags are removed, what does the header show?~~ Resolved
   2026-11-26: About and Résumé (mobile menu: Home, About, Résumé).
-- **OQ-6** The exact third-party hosts each embed calls. Answered by: the browser console on a
-  production build. Blocks: FR-7.
+- ~~**OQ-6** The exact third-party hosts each embed calls.~~ Resolved 2026-11-26 on a production
+  build: the page itself loads only the `www.credly.com` frame (plus the existing Umami hosts).
+  Inside the frame, Credly loads `cdn.credly.com`, `images.credly.com` and `stats.credly.com`
+  under its own policy. No CSP violations or console errors on `/` and `/about`.
