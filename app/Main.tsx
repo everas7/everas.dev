@@ -1,4 +1,5 @@
 import { profile, type ProfileLink } from '@/data/profile'
+import Credentials from '@/components/Credentials'
 
 // Plain <a>, not @/components/Link: that component opens mailto: in a new tab and
 // routes /static/resume.pdf through the Next.js router.
@@ -28,6 +29,12 @@ export default function Home() {
           </a>
         ))}
       </div>
+      <section className="space-y-6 border-t border-gray-200 pt-8 dark:border-gray-700">
+        <h2 className="text-2xl font-bold leading-8 tracking-tight text-gray-900 dark:text-gray-100">
+          Credentials
+        </h2>
+        <Credentials where="home" />
+      </section>
     </div>
   )
 }
