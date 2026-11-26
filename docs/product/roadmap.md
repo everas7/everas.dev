@@ -79,7 +79,7 @@ In `siteMetadata.js` and `app/layout.tsx`: home title "Enmanuel Veras – Senior
 - lane: routes
 - size: S
 - verify: `yarn build && yarn test:e2e e2e/hidden-blog.spec.ts`
-- status: todo
+- status: doing
 Add `robots: { index: false }` to the metadata exports of the post, `/blog`, `/blog/page/*`, `/tags` and `/tags/*` pages, in the page files and not through `app/seo.tsx` (site lane). `app/sitemap.ts` lists only `/` and `/about`. Spec checks both post URLs return 200, and that no page links to `/blog` or `/tags`. That check needs the old home (E1-S1) and the old header (E1-S5) gone.
 
 #### E1-S8 · Real 404s and the 404 page
