@@ -12,6 +12,7 @@ export async function generateMetadata({ params }: { params: { tag: string } }):
   return genPageMetadata({
     title: tag,
     description: `${siteMetadata.headerTitle} ${tag} tagged content`,
+    robots: { index: false },
   })
 }
 
