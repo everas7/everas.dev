@@ -36,6 +36,7 @@ export type Profile = {
 }
 
 const email = 'enmaveras07@gmail.com'
+export const resumeHref = '/static/resume.pdf'
 
 export const profile: Profile = {
   name: 'Enmanuel Veras',
@@ -44,7 +45,7 @@ export const profile: Profile = {
     'I build full-stack products in TypeScript and LLM systems in Python. 8 years shipping React, Node.js and AWS; most recently, the RAG pipeline behind an AI sales assistant used by ~150 car dealerships.',
   email,
   links: [
-    { label: 'Résumé (PDF) →', href: '/static/resume.pdf', event: 'resume' },
+    { label: 'Résumé (PDF) →', href: resumeHref, event: 'resume' },
     { label: 'Email', href: `mailto:${email}`, event: 'email' },
     { label: 'GitHub', href: 'https://github.com/everas7', event: 'github' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/everas7/', event: 'linkedin' },

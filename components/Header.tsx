@@ -2,9 +2,9 @@ import siteMetadata from '@/data/siteMetadata'
 import headerNavLinks from '@/data/headerNavLinks'
 import Logo from '@/data/logo.svg'
 import Link from './Link'
+import NavItem from './NavItem'
 import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
-import SearchButton from './SearchButton'
 
 const Header = () => {
   return (
@@ -29,15 +29,13 @@ const Header = () => {
         {headerNavLinks
           .filter((link) => link.href !== '/')
           .map((link) => (
-            <Link
+            <NavItem
               key={link.title}
-              href={link.href}
+              link={link}
+              where="header"
               className="hidden sm:block font-medium text-gray-900 dark:text-gray-100"
-            >
-              {link.title}
-            </Link>
+            />
           ))}
-        <SearchButton />
         <ThemeSwitch />
         <MobileNav />
       </div>

@@ -61,7 +61,7 @@ Card variant: an `as` heading prop (default `h2`), an optional `meta` line and t
 - lane: site
 - size: M
 - verify: `yarn build && yarn test:e2e e2e/frame.spec.ts`
-- status: todo
+- status: done
 `headerNavLinks`: About and Résumé (menu: Home, About, Résumé). Résumé opens in a new tab with `resume` events `-where="header"` and `"menu"`. Remove `SearchButton`, `SearchProvider` from `app/layout.tsx` and `siteMetadata.search`. Mobile menu: out of the tab order and `aria-hidden` when closed, `Esc` closes it, labels "Open menu" / "Close menu". Remove the footer theme credit. Can run in parallel with E1-S2–S4.
 
 #### E1-S6 · Site metadata, titles and RSS links

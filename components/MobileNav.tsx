@@ -1,27 +1,69 @@
 'use client'
 
-import { useState } from 'react'
-import Link from './Link'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { usePathname } from 'next/navigation'
+import NavItem from './NavItem'
 import headerNavLinks from '@/data/headerNavLinks'
 
 const MobileNav = () => {
-  const [navShow, setNavShow] = useState(false)
+  const [open, setOpen] = useState(false)
+  const openButtonRef = useRef<HTMLButtonElement>(null)
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const panelRef = useRef<HTMLDivElement>(null)
+  const pathname = usePathname()
 
-  const onToggleNav = () => {
-    setNavShow((status) => {
-      if (status) {
-        document.body.style.overflow = 'auto'
-      } else {
-        // Prevent scrolling
-        document.body.style.overflow = 'hidden'
-      }
-      return !status
-    })
-  }
+  const close = useCallback(() => {
+    setOpen(false)
+    openButtonRef.current?.focus()
+  }, [])
+
+  // Covers navigation that doesn't go through a menu link, such as browser Back.
+  useEffect(() => setOpen(false), [pathname])
+
+  useEffect(() => {
+    if (!open) return
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') return close()
+
+      const panel = panelRef.current
+      if (event.key !== 'Tab' || event.ctrlKey || event.metaKey || !panel) return
+      // Move the focus here on every Tab: Safari's default skips links, which would take the
+      // focus out of the panel.
+      event.preventDefault()
+      const items = Array.from(panel.querySelectorAll<HTMLElement>('a[href], button'))
+      const current = items.indexOf(document.activeElement as HTMLElement)
+      const step = event.shiftKey ? -1 : 1
+      // From outside the panel, enter at the first item, or the last with Shift.
+      const next = current === -1 ? (event.shiftKey ? -1 : 0) : current + step
+      items[(next + items.length) % items.length].focus()
+    }
+    // The menu button is hidden from `sm` up, so close without moving focus to it.
+    const desktop = window.matchMedia('(min-width: 640px)')
+    const onWiden = (event: MediaQueryListEvent) => {
+      if (event.matches) setOpen(false)
+    }
+
+    closeButtonRef.current?.focus()
+    document.body.style.overflow = 'hidden'
+    document.addEventListener('keydown', onKeyDown)
+    desktop.addEventListener('change', onWiden)
+    return () => {
+      document.body.style.overflow = ''
+      document.removeEventListener('keydown', onKeyDown)
+      desktop.removeEventListener('change', onWiden)
+    }
+  }, [open, close])
 
   return (
     <>
-      <button aria-label="Toggle Menu" onClick={onToggleNav} className="sm:hidden">
+      <button
+        ref={openButtonRef}
+        aria-label="Open menu"
+        aria-expanded={open}
+        onClick={() => setOpen(true)}
+        className="sm:hidden"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
@@ -36,12 +78,27 @@ const MobileNav = () => {
         </svg>
       </button>
       <div
+        id="mobile-menu"
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Menu"
+        aria-hidden={!open}
+        // Visibility transitions only on closing: on opening it must apply at once, or the
+        // close button can't take focus.
         className={`fixed left-0 top-0 z-10 h-full w-full transform opacity-95 dark:opacity-[0.98] bg-white duration-300 ease-in-out dark:bg-gray-950 ${
-          navShow ? 'translate-x-0' : 'translate-x-full'
+          open
+            ? 'visible translate-x-0 transition-transform'
+            : 'invisible translate-x-full transition-[transform,visibility]'
         }`}
       >
         <div className="flex justify-end">
-          <button className="mr-8 mt-11 h-8 w-8" aria-label="Toggle Menu" onClick={onToggleNav}>
+          <button
+            ref={closeButtonRef}
+            className="mr-8 mt-11 h-8 w-8"
+            aria-label="Close menu"
+            onClick={close}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
@@ -59,13 +116,12 @@ const MobileNav = () => {
         <nav className="fixed mt-8 h-full">
           {headerNavLinks.map((link) => (
             <div key={link.title} className="px-12 py-4">
-              <Link
-                href={link.href}
+              <NavItem
+                link={link}
+                where="menu"
                 className="text-2xl font-bold tracking-widest text-gray-900 dark:text-gray-100"
-                onClick={onToggleNav}
-              >
-                {link.title}
-              </Link>
+                onClick={close}
+              />
             </div>
           ))}
         </nav>
