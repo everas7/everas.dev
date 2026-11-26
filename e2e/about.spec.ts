@@ -77,3 +77,52 @@ test('no horizontal scroll at 400px', async ({ page }) => {
   )
   expect(overflow).toBeLessThanOrEqual(0)
 })
+
+test('FR-8 résumé link sits under the icons', async ({ page }) => {
+  await page.goto('/about')
+  const resume = column(page).getByRole('link', { name: 'Résumé (PDF) →', exact: true })
+  await expect(resume).toHaveAttribute('href', '/static/resume.pdf')
+  await expect(resume).toHaveAttribute('target', '_blank')
+  await expect(resume).toHaveAttribute('rel', /noopener/)
+  await expect(resume).toHaveAttribute('data-umami-event', 'resume')
+  await expect(resume).toHaveAttribute('data-umami-event-where', 'about')
+
+  const icon = await column(page).getByRole('link', { name: 'github', exact: true }).boundingBox()
+  const box = await resume.boundingBox()
+  expect(box!.y).toBeGreaterThanOrEqual(icon!.y + icon!.height)
+})
+
+test('FR-8 contact icons carry Umami events', async ({ page }) => {
+  await page.goto('/about')
+  await expect(column(page).getByRole('link')).toHaveCount(4)
+  for (const [name, href, event] of [
+    ['mail', 'mailto:enmaveras07@gmail.com', 'email'],
+    ['github', 'https://github.com/everas7', 'github'],
+    ['linkedin', 'https://www.linkedin.com/in/everas7/', 'linkedin'],
+  ] as const) {
+    const link = column(page).getByRole('link', { name, exact: true })
+    await expect(link).toHaveAttribute('href', href)
+    await expect(link).toHaveAttribute('target', '_blank')
+    await expect(link).toHaveAttribute('rel', /noopener/)
+    await expect(link).toHaveAttribute('data-umami-event', event)
+    await expect(link).toHaveAttribute('data-umami-event-where', 'about')
+  }
+})
+
+test('résumé link keeps clear of the divider below it', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 })
+  await page.goto('/about')
+  const resume = await column(page)
+    .getByRole('link', { name: 'Résumé (PDF) →', exact: true })
+    .boundingBox()
+  const credentials = await page
+    .locator('main section', { has: page.getByTestId('credentials') })
+    .boundingBox()
+  expect(credentials!.y - (resume!.y + resume!.height)).toBeGreaterThanOrEqual(24)
+})
+
+test('footer icons stay untracked', async ({ page }) => {
+  await page.goto('/about')
+  await expect(page.locator('footer a').first()).toBeVisible()
+  await expect(page.locator('footer [data-umami-event]')).toHaveCount(0)
+})

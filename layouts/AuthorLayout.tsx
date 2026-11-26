@@ -3,6 +3,9 @@ import type { Authors } from 'contentlayer/generated'
 import SocialIcon from '@/components/social-icons'
 import Image from '@/components/Image'
 import Credentials from '@/components/Credentials'
+import { profile } from '@/data/profile'
+
+const resume = profile.links.find((link) => link.event === 'resume')
 
 interface Props {
   children: ReactNode
@@ -10,7 +13,7 @@ interface Props {
 }
 
 export default function AuthorLayout({ children, content }: Props) {
-  const { name, avatar, occupation, company, email, twitter, linkedin, github } = content
+  const { name, avatar, occupation, company, email, linkedin, github } = content
 
   return (
     <>
@@ -21,7 +24,10 @@ export default function AuthorLayout({ children, content }: Props) {
           </h1>
         </div>
         <div className="items-start space-y-2 xl:grid xl:grid-cols-3 xl:gap-x-8 xl:space-y-0">
-          <div data-testid="profile-column" className="flex flex-col items-center space-x-2 pt-8">
+          <div
+            data-testid="profile-column"
+            className="flex flex-col items-center space-x-2 pt-8 xl:pb-8"
+          >
             {avatar && (
               <Image
                 src={avatar}
@@ -35,11 +41,32 @@ export default function AuthorLayout({ children, content }: Props) {
             <div className="text-gray-500 dark:text-gray-400">{occupation}</div>
             <div className="text-gray-500 dark:text-gray-400">{company}</div>
             <div className="flex space-x-3 pt-6">
-              <SocialIcon kind="mail" href={`mailto:${email}`} />
-              <SocialIcon kind="github" href={github} />
-              <SocialIcon kind="linkedin" href={linkedin} />
-              <SocialIcon kind="twitter" href={twitter} />
+              <SocialIcon
+                kind="mail"
+                href={`mailto:${email}`}
+                track={{ event: 'email', where: 'about' }}
+              />
+              <SocialIcon kind="github" href={github} track={{ event: 'github', where: 'about' }} />
+              <SocialIcon
+                kind="linkedin"
+                href={linkedin}
+                track={{ event: 'linkedin', where: 'about' }}
+              />
             </div>
+            {resume && (
+              <div className="pt-3">
+                <a
+                  href={resume.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-base font-medium leading-6 text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+                  data-umami-event={resume.event}
+                  data-umami-event-where="about"
+                >
+                  {resume.label}
+                </a>
+              </div>
+            )}
           </div>
           <div
             data-testid="bio"

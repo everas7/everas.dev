@@ -14,9 +14,10 @@ type SocialIconProps = {
   kind: keyof typeof components
   href: string | undefined
   size?: number
+  track?: { event: 'email' | 'github' | 'linkedin'; where: 'about' }
 }
 
-const SocialIcon = ({ kind, href, size = 8 }: SocialIconProps) => {
+const SocialIcon = ({ kind, href, size = 8, track }: SocialIconProps) => {
   if (!href || (kind === 'mail' && !/^mailto:\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/.test(href)))
     return null
 
@@ -28,6 +29,8 @@ const SocialIcon = ({ kind, href, size = 8 }: SocialIconProps) => {
       target="_blank"
       rel="noopener noreferrer"
       href={href}
+      data-umami-event={track?.event}
+      data-umami-event-where={track?.where}
     >
       <span className="sr-only">{kind}</span>
       <SocialSvg
