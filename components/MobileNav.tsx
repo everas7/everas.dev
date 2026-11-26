@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import Link from './Link'
+import NavItem from './NavItem'
 import headerNavLinks from '@/data/headerNavLinks'
 
 const MobileNav = () => {
@@ -36,6 +36,7 @@ const MobileNav = () => {
         </svg>
       </button>
       <div
+        id="mobile-menu"
         className={`fixed left-0 top-0 z-10 h-full w-full transform opacity-95 dark:opacity-[0.98] bg-white duration-300 ease-in-out dark:bg-gray-950 ${
           navShow ? 'translate-x-0' : 'translate-x-full'
         }`}
@@ -59,13 +60,12 @@ const MobileNav = () => {
         <nav className="fixed mt-8 h-full">
           {headerNavLinks.map((link) => (
             <div key={link.title} className="px-12 py-4">
-              <Link
-                href={link.href}
+              <NavItem
+                link={link}
+                where="menu"
                 className="text-2xl font-bold tracking-widest text-gray-900 dark:text-gray-100"
                 onClick={onToggleNav}
-              >
-                {link.title}
-              </Link>
+              />
             </div>
           ))}
         </nav>
